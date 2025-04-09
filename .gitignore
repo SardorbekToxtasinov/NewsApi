@@ -1,0 +1,3 @@
+# Python tomonidan yaratilgan fayllarni e'tiborsiz qoldirish
+.env.dev
+__pycashe__/
