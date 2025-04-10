@@ -1,3 +1,4 @@
 # Python tomonidan yaratilgan fayllarni e'tiborsiz qoldirish
 .env.dev
-__pycashe__/
+__pycache__/
+*.pyc
