@@ -19,8 +19,10 @@ class BookmarkViewSet(ModelViewSet):
         user = self.request.user
         news = serializer.validated_data.get('news')
 
-        # Avval mavjud bo'lgan bookmark'ni o'chirib tashlash
-        Bookmark.objects.filter(user=user, news=news).delete()
+        # Agar bookmark mavjud bo'lsa, uni o'chirish
+        existing_bookmark = Bookmark.objects.filter(user=user, news=news).first()
+        if existing_bookmark:
+            existing_bookmark.delete()
 
         # Yangi bookmark'ni yaratish
         serializer.save(user=user)
