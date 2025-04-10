@@ -23,7 +23,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
 SECRET_KEY = env('SECRET_KEY')
 
 # Ishlab chiqarishda DEBUG holatini yoqmaslik kerak
-DEBUG = env.bool('DEBUG', default=False)
+DEBUG = env('DEBUG')
 
 # Qaysi hostlarga ruxsat berilishini belgilash
 ALLOWED_HOSTS = ['newsapi-0na6.onrender.com', 'localhost', '127.0.0.1']
