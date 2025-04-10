@@ -10,7 +10,15 @@ import django_filters  # django_filters uchun import
 from core.models.new import *  # New modelini import qilamiz
 from api.serializers.new import *  # New serializatorini import qilamiz
 
-# Faqat admin va editor guruhidagi foydalanuvchilarga ruxsat beruvchi maxsus permission sinfi
+# Faqat post muallifi (author) o‘zgartirishi yoki o‘chirishi mumkin.
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        # O'qish uchun har qanday ruxsat
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        # Faqat muallif (author) o‘zgartira yoki o‘chira oladi
+        return obj.author == request.user
+    
 class IsAdminOrEditor(permissions.BasePermission):
     def has_permission(self, request, view):
         # Foydalanuvchi admin yoki 'editor' guruhida bo'lsa, ruxsat beriladi
@@ -77,8 +85,11 @@ class NewViewSet(ModelViewSet):
 
     # Har bir action uchun ruxsatlarni belgilash
     def get_permissions(self):
-        # Agar action 'create', 'update', 'partial_update', yoki 'destroy' bo‘lsa, faqat admin yoki editor guruhidagi foydalanuvchilarga ruxsat
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+        if self.action == 'create':
+            # Yaratish uchun faqat admin yoki editor
             return [IsAdminOrEditor()]
-        # Boshqa holatlarda barcha foydalanuvchilarga ruxsat
+        elif self.action in ['update', 'partial_update', 'destroy']:
+            # Yangilash va o‘chirish uchun faqat muallifga ruxsat
+            return [permissions.IsAuthenticated(), IsOwnerOrReadOnly()]
+        # Boshqalar uchun ochiq
         return [permissions.AllowAny()]
