@@ -1,4 +1,5 @@
 # Projectning asosiy papkasini olish
+import dj_database_url
 from pathlib import Path
 import os
 import environ
@@ -76,10 +77,9 @@ TEMPLATES = [
 # WSGI (Web Server Gateway Interface) ilovasi
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
-# Ma'lumotlar bazasi konfiguratsiyasi
+# DATABASE_URL dan foydalanish
 DATABASES = {
-    'default': env.db(),  # Ma'lumotlar bazasini .env faylidan o'qish
+    'default': dj_database_url.parse(env('DATABASE_URL'))
 }
 
 # Parolni tekshirishning asosiy validatsiya qoidalari
