@@ -121,6 +121,7 @@ SWAGGER_SETTINGS = {
             'in': 'Header'  # Headerda yuboriladigan token
         }
     },
+    'USE_STATIC_URLS': False  # ⬅️ BU CDN ishlatish uchun MUHIM
 }
 
 
@@ -136,6 +137,7 @@ USE_TZ = True  # Vaqt zonasini qo'llash
 
 # Statik fayllar sozlamalari (CSS, JavaScript, rasm fayllari)
 STATIC_URL = 'static/'  # Statik fayllar URL manzili
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Render uchun:
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
