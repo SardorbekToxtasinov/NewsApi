@@ -16,6 +16,7 @@ class NewSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)  # Asl serializatsiyani olish
         data['category'] = CategorySerializer(instance.category).data  # Kategoriyaning serializatsiyasini qo'shish
         data["created_at"] = instance.created_at.strftime("%Y-%m-%d %H:%M")
+        data["updated_at"] = instance.created_at.strftime("%Y-%m-%d %H:%M")
         if instance.author:  # Agar muallif (foydalanuvchi) mavjud bo'lsa
             data['author'] = UserSerializer(instance.author).data  # Foydalanuvchining serializatsiyasini qo'shish
         data['view'] = instance.view  # Yangilikka bo'lgan qarashlar sonini alohida qo'shish

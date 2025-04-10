@@ -16,5 +16,11 @@ class BookmarkViewSet(ModelViewSet):
 
     # Yangilikni yaratishdan oldin, foydalanuvchining identifikatorini qo'shish
     def perform_create(self, serializer):
-        # Foydalanuvchini saqlashda unga tegishli bookmark qo'shish
-        serializer.save(user=self.request.user)
+        user = self.request.user
+        news = serializer.validated_data.get('news')
+
+        # Avval mavjud bo'lgan bookmark'ni o'chirib tashlash
+        Bookmark.objects.filter(user=user, news=news).delete()
+
+        # Yangi bookmark'ni yaratish
+        serializer.save(user=user)
