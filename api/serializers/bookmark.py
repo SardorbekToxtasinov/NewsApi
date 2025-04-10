@@ -17,6 +17,7 @@ class BookmarkSerializer(serializers.ModelSerializer):
     # Modelni qanday ko'rinishda qaytarishni belgilash
     def to_representation(self, instance):
         data = super().to_representation(instance)  # Asl serializatsiyani olish
+        data["created_at"] = instance.created_at.strftime("%Y-%m-%d %H:%M")
         if instance.user:  # Agar foydalanuvchi mavjud bo'lsa
             data['user'] = UserSerializer(instance.user).data  # Foydalanuvchining serializatsiyasini qo'shish
         return data  # Qaytarilgan ma'lumotni qaytarish
