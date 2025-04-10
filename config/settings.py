@@ -137,6 +137,9 @@ USE_TZ = True  # Vaqt zonasini qo'llash
 # Statik fayllar sozlamalari (CSS, JavaScript, rasm fayllari)
 STATIC_URL = 'static/'  # Statik fayllar URL manzili
 
+# Render uchun:
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 MEDIA_URL = 'media/'  # Media fayllar URL manzili
 MEDIA_ROOT = BASE_DIR / 'media'  # Media fayllar joylashgan papka
 
