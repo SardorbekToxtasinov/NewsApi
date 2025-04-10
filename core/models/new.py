@@ -25,3 +25,6 @@ class New(models.Model):
     # Modelning string ko'rinishini qaytarish
     def __str__(self):
         return self.title  # Yangilik sarlavhasini qaytaradi
+
+    class Meta:
+        ordering = ["-id"]

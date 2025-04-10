@@ -110,6 +110,8 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',  # Django filtrlashni qo'llash
         'rest_framework.filters.OrderingFilter',  # Ordering filtrlashni qo'llash
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
 }
 
 # Swagger hujjatlari konfiguratsiyasi

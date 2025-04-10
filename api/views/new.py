@@ -51,7 +51,8 @@ class NewsFilter(django_filters.FilterSet):
 
 # Yangiliklar uchun asosiy ViewSet
 class NewViewSet(ModelViewSet):
-    queryset = New.objects.all()  # Yangiliklar ro‘yxati
+    
+    queryset = New.objects.select_related("category", "author")  # Yangiliklar ro‘yxati
     serializer_class = NewSerializer  # Yangiliklar uchun serializator
     filter_backends = [DjangoFilterBackend, OrderingFilter]  # Filtrlar va saralash
     filterset_class = NewsFilter  # Filtrlar klassi
