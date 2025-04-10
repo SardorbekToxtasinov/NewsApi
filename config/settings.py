@@ -26,7 +26,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 # Qaysi hostlarga ruxsat berilishini belgilash
-ALLOWED_HOSTS = ['newsapi-0na6.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*','newsapi-0na6.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Dastur ilovalarining ro'yxati
