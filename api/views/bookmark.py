@@ -1,28 +1,26 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from core.models.bookmark import Bookmark
 from api.serializers.bookmark import BookmarkSerializer
 
-# Bookmark viewset'i - bu modelga oid barcha CRUD amallarini bajarish uchun ishlatiladi
 class BookmarkViewSet(ModelViewSet):
-    queryset = Bookmark.objects.all() # Barcha bookmark'larni olish
-    serializer_class = BookmarkSerializer  # Serializator sifatida BookmarkSerializer ishlatiladi
-    permission_classes = [IsAuthenticated]  # Faqat autentifikatsiyalangan foydalanuvchilarga ruxsat beriladi
+    serializer_class = BookmarkSerializer
+    permission_classes = [IsAuthenticated]
 
-    # Faqat foydalanuvchiga tegishli bookmarklarni olish
     def get_queryset(self):
-        # Faqat o'ziga tegishli bookmarklar ko'rsatiladi
+        # Swagger uchun bo'sh queryset
+        if getattr(self, 'swagger_fake_view', False):
+            return Bookmark.objects.none()
         return Bookmark.objects.filter(user=self.request.user)
 
-    # Yangilikni yaratishdan oldin, foydalanuvchining identifikatorini qo'shish
     def perform_create(self, serializer):
         user = self.request.user
-        news = serializer.validated_data.get('news')
+        news = self.request.data.get('news')
 
-        # Agar bookmark mavjud bo'lsa, uni o'chirish
-        existing_bookmark = Bookmark.objects.filter(user=user, news=news).first()
-        if existing_bookmark:
-            existing_bookmark.delete()
-
-        # Yangi bookmark'ni yaratish
-        serializer.save(user=user)
+        existing = Bookmark.objects.filter(user=user, news=news).first()
+        if existing:
+            existing.delete()
+            return Response("A")
+        else:
+            serializer.save(user=user)
